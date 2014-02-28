@@ -16,6 +16,7 @@ import android.graphics.Typeface;
 import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -26,7 +27,9 @@ public class StockManager extends Application
 	public HashMap<Finance, Float> portfolio = new HashMap<Finance, Float>();
 	private HashMap<String, String> stockNamesLong = new HashMap<String, String>();
 	List<String> stockNames = new ArrayList<String>();
+	List<Float> stockTotals = new ArrayList<Float>();
 	FeedParser newParse = new FeedParser();
+	TableLayout table;
 
 	private String myState;
 
@@ -45,6 +48,7 @@ public class StockManager extends Application
 		portfolio.clear();
 		stockNames.clear();
 		stockNamesLong.clear();
+		stockTotals.clear();
 	}
 
 	public Finance createFinanceObject(String stockCode) throws IOException, JSONException
@@ -74,6 +78,11 @@ public class StockManager extends Application
 		portfolio.put(stockObj, shareQuantity);
 		stockNames.add(stockObj.getName());
 		stockNamesLong.put(stockCode.substring(stockCode.indexOf(":") + 1), stockNameLong);
+		stockTotals.add(stockObj.getTotal());
+		
+		
+		
+		
 		return true;
 	}
 
@@ -94,14 +103,134 @@ public class StockManager extends Application
 		return value;
 	}
 
+	public void sumTable(Activity contextActivity)
+	{
+		
+		//table.removeAllViews();
+		table = (TableLayout) contextActivity.findViewById(R.id.tableLayout1); // Find
+																							// TableLayout
+																						// defined
+																							// in
+																							// main.xml
+
+		table.setStretchAllColumns(true);
+		table.setShrinkAllColumns(true);
+
+		// Stock Loop
+		int stockCount = portfolio.size();
+		int stockCounter = 0;
+
+		TableRow[] rowStock = new TableRow[stockCount];
+		TextView[] stockName = new TextView[stockCount];
+		TextView[] stockShares = new TextView[stockCount];
+		TextView[] stockValue = new TextView[stockCount];
+		TextView[] stockTotal = new TextView[stockCount];
+
+		TableRow rowTotal = new TableRow(contextActivity);
+		TextView portfolioTotal = new TextView(contextActivity);
+
+		// Now sort...
+		Collections.sort(stockTotals);
+		for (Float currStockTotal : stockTotals) // Sorted list of names
+		{
+
+			Finance stockObj = null;
+			for (Finance thisObj : portfolio.keySet())
+			{
+				if (thisObj.getTotal() == currStockTotal)
+				{
+					stockObj = thisObj;
+					break; // fail fast
+				}
+			}
+
+			rowStock[stockCounter] = new TableRow(contextActivity);
+			stockName[stockCounter] = new TextView(contextActivity);
+			stockShares[stockCounter] = new TextView(contextActivity);
+			stockValue[stockCounter] = new TextView(contextActivity);
+			stockTotal[stockCounter] = new TextView(contextActivity);
+
+			float thisStockValue = stockObj.getLast();
+
+			// half up rounding mode - so reduces errors to +/- £1
+			BigDecimal stockValueRounded = new BigDecimal(Double.toString(thisStockValue));
+			stockValueRounded = stockValueRounded.setScale(0, BigDecimal.ROUND_HALF_DOWN);
+			float subTotal = portfolio.get(stockObj) * thisStockValue;
+			
+			stockObj.setTotal(subTotal);
+
+			String longName = stockNamesLong.get(stockObj.getName().toString());
+
+			stockName[stockCounter].setText(longName);
+			stockName[stockCounter].setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+			stockName[stockCounter].setTextColor(Color.rgb(58, 128, 255));
+			stockName[stockCounter].setTextSize(12f);
+			stockName[stockCounter].setHeight(70);
+			stockName[stockCounter].setWidth(200);
+			stockName[stockCounter].setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+
+			stockShares[stockCounter].setText(String.format("%,3.0f", portfolio.get(stockObj)));
+			stockShares[stockCounter].setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+			stockShares[stockCounter].setTextSize(15f);
+			stockShares[stockCounter].setSingleLine(true);
+
+			stockValue[stockCounter].setText("£" + String.format("%.2f", thisStockValue));
+			stockValue[stockCounter].setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+			stockValue[stockCounter].setTextSize(15f);
+			stockValue[stockCounter].setSingleLine(true);
+
+			stockTotal[stockCounter].setText("£" + String.format("%,3.0f", subTotal));
+			stockTotal[stockCounter].setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+			stockTotal[stockCounter].setTextSize(15f);
+			stockTotal[stockCounter].setSingleLine(true);
+			
+			//Log.v("LOGCATZ",  "Last Volume: " + longName);
+			//Log.v("LOGCATZ",  "Last Volume: " + subTotal);
+
+			rowStock[stockCounter].addView(stockName[stockCounter]);
+			rowStock[stockCounter].addView(stockShares[stockCounter]);
+			rowStock[stockCounter].addView(stockValue[stockCounter]);
+			rowStock[stockCounter].addView(stockTotal[stockCounter]);
+
+			table.addView(rowStock[stockCounter]);
+
+			stockCounter++;
+
+		}
+		List<String> portTotal = new ArrayList<String>();
+		String totalVal = "Total Portfolio Value:     £" + String.format("%,.0f", getPortfolioTotal());
+		portfolioTotal.setText(totalVal);
+		portfolioTotal.setTextSize(20f);
+		portfolioTotal.setHeight(100);
+		portfolioTotal.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+
+		TableRow.LayoutParams params = new TableRow.LayoutParams();
+		params.span = 4;
+		
+		portTotal.add(totalVal);
+		
+		
+		rowTotal.addView(portfolioTotal, params);
+		table.addView(rowTotal);
+
+	}
+	
 	public void summaryTable(Activity contextActivity)
 	{
-
-		TableLayout table = (TableLayout) contextActivity.findViewById(R.id.tableLayout1); // Find
+		
+		
+		//TableLayout table;
+		
+		//table.removeViewAt(tableRow1);
+		
+		
+		
+		table = (TableLayout) contextActivity.findViewById(R.id.tableLayout1);
+																							// Find
 																							// TableLayout
 																							// defined
 																							// in
-																							// main.xml
+																						// main.xml
 
 		table.setStretchAllColumns(true);
 		table.setShrinkAllColumns(true);
@@ -144,8 +273,10 @@ public class StockManager extends Application
 
 			// half up rounding mode - so reduces errors to +/- £1
 			BigDecimal stockValueRounded = new BigDecimal(Double.toString(thisStockValue));
-			stockValueRounded = stockValueRounded.setScale(0, BigDecimal.ROUND_HALF_UP);
+			stockValueRounded = stockValueRounded.setScale(0, BigDecimal.ROUND_HALF_DOWN);
 			float subTotal = portfolio.get(stockObj) * thisStockValue;
+			
+			stockObj.setTotal(subTotal);
 
 			String longName = stockNamesLong.get(stockObj.getName().toString());
 
@@ -173,7 +304,7 @@ public class StockManager extends Application
 			stockTotal[stockCounter].setSingleLine(true);
 			
 			//Log.v("LOGCATZ",  "Last Volume: " + longName);
-			Log.v("LOGCATZ",  "Last Volume: " + subTotal);
+			//Log.v("LOGCATZ",  "Last Volume: " + subTotal);
 
 			rowStock[stockCounter].addView(stockName[stockCounter]);
 			rowStock[stockCounter].addView(stockShares[stockCounter]);
@@ -185,7 +316,7 @@ public class StockManager extends Application
 			stockCounter++;
 
 		}
-
+		List<String> portTotal = new ArrayList<String>();
 		String totalVal = "Total Portfolio Value:     £" + String.format("%,.0f", getPortfolioTotal());
 		portfolioTotal.setText(totalVal);
 		portfolioTotal.setTextSize(20f);
@@ -194,12 +325,15 @@ public class StockManager extends Application
 
 		TableRow.LayoutParams params = new TableRow.LayoutParams();
 		params.span = 4;
-
+		
+		portTotal.add(totalVal);
+		
+		
 		rowTotal.addView(portfolioTotal, params);
 		table.addView(rowTotal);
 
 	}
-
+	
 	public int volumeTable(Activity contextActivity)
 	{
 

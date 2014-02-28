@@ -30,6 +30,7 @@ public class FeedParser
 		BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 		StringBuilder sb = new StringBuilder();
 		int cp;
+		float stock;
 		while ((cp = rd.read()) != -1)
 		{
 			sb.append((char) cp);
@@ -42,16 +43,19 @@ public class FeedParser
 		jObject = new JSONObject(jsonText);
 		
 		String tmpString = jObject.getString("l");
+		
+		
 		// Set 'Last' value
-		toPopulate.setLast(Float.parseFloat(tmpString.replace(",", "")) / 100f);
+		toPopulate.setLast(stock = Float.parseFloat(tmpString.replace(",", "")) / 100f);
 		
 		
-		//Log.v("LOGCATZ", " " + toPopulate.getLast());
+		
 		//Log.v("LOGCATZ", " last set.");
 		
 		// Set 'Company' name
 		toPopulate.setName(jObject.getString("t"));
 		//Log.v("LOGCATZ", " name set.");
+		//Log.v("LOGCATZ", " " + toPopulate.getName());
 		// Set 'Market'
 		toPopulate.setMarket(jObject.getString("e"));
 		//Log.v("LOGCATZ", " market set.");
@@ -59,6 +63,30 @@ public class FeedParser
 		int instantVolume = volCharToInt(jObject.getString("vo"));
 		//Log.v("LOGCATZ", " volume set.");
 		toPopulate.setInstantVolume(instantVolume);
+		
+		if(toPopulate.getName().toString().equals("BP"))
+		{
+			toPopulate.setTotal(stock * 192);
+			//Log.v("LOGCATZ", " " + toPopulate.getTotal());
+		}
+		if(toPopulate.getName().toString().equals("EXPN"))
+		{
+			toPopulate.setTotal(stock * 258);
+		}
+		if(toPopulate.getName().toString().equals("HSBA"))
+		{
+			toPopulate.setTotal(stock * 343);
+		}
+		if(toPopulate.getName().toString().equals("MKS"))
+		{
+			toPopulate.setTotal(stock * 485);
+		}
+		if(toPopulate.getName().toString().equals("SN"))
+		{
+			toPopulate.setTotal(stock * 1219);
+		}
+		
+		
 		
 	
 

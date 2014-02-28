@@ -29,7 +29,7 @@ public class SummaryActivity extends Activity
 	TableRow errorRow;
 	TextView error1;
 	TableRow.LayoutParams params;
-	boolean alphaFlag = false;
+	boolean flag = false;
 	
 	
 	@Override
@@ -42,20 +42,7 @@ public class SummaryActivity extends Activity
 		
 		setContentView(R.layout.summary);
 		
-		Button button = (Button) findViewById(R.id.button1);
-		button.setOnClickListener(new View.OnClickListener() {
-		    public void onClick(View v) {
-		    	
-		    	
-		    	if(alphaFlag == false){
-		    		
-		    		alphaFlag = true;
-		    	}
-		    	else if(alphaFlag == true){
-		    		alphaFlag = false;
-		    	}
-		    }
-		});
+		
 
 
 	    update();
@@ -75,8 +62,9 @@ public class SummaryActivity extends Activity
 		if (checkInternetConnection()) {
 			try {
 				
-				onClick();
+				refresh();
 				myStockmanager.summaryTable(this);
+				
 				
 			} catch(Exception e) {
 				/* Parse Error */ 
@@ -96,25 +84,24 @@ public class SummaryActivity extends Activity
 	}
 
 	/* Click Refresh */
-	public void onClick() throws IOException, JSONException {
+	public void refresh() throws IOException, JSONException {
 	
 		myStockmanager.clearPortfolio();
 		
-		if(alphaFlag == false)
-		{
+		
 		myStockmanager.addPortfolioEntry("BP", "BP Amoco Plc", 192);
 		myStockmanager.addPortfolioEntry("EXPN", "Experian Plc", 258);
 		myStockmanager.addPortfolioEntry("HSBA", "HSBC Holdings Plc Ord.", 343);
 		myStockmanager.addPortfolioEntry("MKS", "Marks & Spencer Ord.", 485);
 		myStockmanager.addPortfolioEntry("SN", "Smith & Nephew Plc Ord.", 1219);
-		}
-		else
-		{
-			
-			myStockmanager.getPortfolioTotal();
-		}
 		
 		
+		
+	}
+	
+	public void changeView() throws IOException, JSONException {
+		refresh();
+		myStockmanager.summaryTable(this);
 	}
 	
 	private boolean checkInternetConnection() {

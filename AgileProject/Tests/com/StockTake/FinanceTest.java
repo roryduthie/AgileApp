@@ -37,7 +37,7 @@ public class FinanceTest extends AndroidTestCase
 	
 	public void testSetGetLast() throws Throwable
 	{
-		finance.setLast(1);
+		finance.setLast(1.234f);
 		Assert.assertEquals(1.234f, finance.getLast(), 0);
 	}
 	
@@ -111,4 +111,10 @@ public class FinanceTest extends AndroidTestCase
 		assertTrue(finance.isPlummet());
 		
 	}
+	public void testSetGetTotal() throws Throwable
+	{
+		finance.setTotal(1234f);
+		Assert.assertEquals(1234f, finance.getTotal(), 0);
+	}
+	
 }

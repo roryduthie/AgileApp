@@ -6,6 +6,7 @@ public class Finance
 
 	public String name; // Stock name
 	public float last  = 0; // Last stock value
+	public float total = 0f;
 	public String market; // Market
 	public float close = 0;
 	public int volume = 0;
@@ -32,6 +33,15 @@ public class Finance
 	public float getLast()
 	{
 		return last;
+	}
+	
+	public void setTotal(float newTotal)
+	{
+		total = newTotal;
+	}
+	public float getTotal()
+	{
+		return total;
 	}
 
 	public void setName(String newName)
