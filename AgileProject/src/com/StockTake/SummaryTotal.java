@@ -89,11 +89,11 @@ public class SummaryTotal extends Activity
 		myStockmanager.clearPortfolio();
 		
 		
-		myStockmanager.addPortfolioEntry("BP", "BP Amoco Plc", 192);
-		myStockmanager.addPortfolioEntry("EXPN", "Experian Plc", 258);
-		myStockmanager.addPortfolioEntry("HSBA", "HSBC Holdings Plc Ord.", 343);
-		myStockmanager.addPortfolioEntry("MKS", "Marks & Spencer Ord.", 485);
-		myStockmanager.addPortfolioEntry("SN", "Smith & Nephew Plc Ord.", 1219);
+		myStockmanager.addPortfolioEntry("BP", "BP", 192);
+		myStockmanager.addPortfolioEntry("EXPN", "Experian", 258);
+		myStockmanager.addPortfolioEntry("HSBA", "HSBC", 343);
+		myStockmanager.addPortfolioEntry("MKS", "M&S", 485);
+		myStockmanager.addPortfolioEntry("SN", "S & N", 1219);
 		
 		
 		

@@ -164,24 +164,24 @@ public class StockManager extends Application
 			stockName[stockCounter].setText(longName);
 			stockName[stockCounter].setTypeface(Typeface.DEFAULT, Typeface.BOLD);
 			stockName[stockCounter].setTextColor(Color.rgb(58, 128, 255));
-			stockName[stockCounter].setTextSize(12f);
+			stockName[stockCounter].setTextSize(20f);
 			stockName[stockCounter].setHeight(70);
 			stockName[stockCounter].setWidth(200);
 			stockName[stockCounter].setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
 
 			stockShares[stockCounter].setText(String.format("%,3.0f", portfolio.get(stockObj)));
 			stockShares[stockCounter].setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-			stockShares[stockCounter].setTextSize(15f);
+			stockShares[stockCounter].setTextSize(20f);
 			stockShares[stockCounter].setSingleLine(true);
 
 			stockValue[stockCounter].setText("£" + String.format("%.2f", thisStockValue));
 			stockValue[stockCounter].setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-			stockValue[stockCounter].setTextSize(15f);
+			stockValue[stockCounter].setTextSize(20f);
 			stockValue[stockCounter].setSingleLine(true);
 
 			stockTotal[stockCounter].setText("£" + String.format("%,3.0f", subTotal));
 			stockTotal[stockCounter].setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-			stockTotal[stockCounter].setTextSize(15f);
+			stockTotal[stockCounter].setTextSize(20f);
 			stockTotal[stockCounter].setSingleLine(true);
 			
 			//Log.v("LOGCATZ",  "Last Volume: " + longName);
@@ -283,24 +283,24 @@ public class StockManager extends Application
 			stockName[stockCounter].setText(longName);
 			stockName[stockCounter].setTypeface(Typeface.DEFAULT, Typeface.BOLD);
 			stockName[stockCounter].setTextColor(Color.rgb(58, 128, 255));
-			stockName[stockCounter].setTextSize(12f);
+			stockName[stockCounter].setTextSize(20f);
 			stockName[stockCounter].setHeight(70);
 			stockName[stockCounter].setWidth(200);
 			stockName[stockCounter].setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
 
 			stockShares[stockCounter].setText(String.format("%,3.0f", portfolio.get(stockObj)));
 			stockShares[stockCounter].setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-			stockShares[stockCounter].setTextSize(15f);
+			stockShares[stockCounter].setTextSize(20f);
 			stockShares[stockCounter].setSingleLine(true);
 
 			stockValue[stockCounter].setText("£" + String.format("%.2f", thisStockValue));
 			stockValue[stockCounter].setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-			stockValue[stockCounter].setTextSize(15f);
+			stockValue[stockCounter].setTextSize(20f);
 			stockValue[stockCounter].setSingleLine(true);
 
 			stockTotal[stockCounter].setText("£" + String.format("%,3.0f", subTotal));
 			stockTotal[stockCounter].setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-			stockTotal[stockCounter].setTextSize(15f);
+			stockTotal[stockCounter].setTextSize(20f);
 			stockTotal[stockCounter].setSingleLine(true);
 			
 			//Log.v("LOGCATZ",  "Last Volume: " + longName);
