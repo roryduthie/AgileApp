@@ -17,6 +17,7 @@ import android.util.Log;
 public class FeedParser
 {
 
+	float stock;
 	public void parseJSON(Finance toPopulate, String currentStock) throws IOException, JSONException
 	{
 		// Create JSON and Finance objects
@@ -30,13 +31,16 @@ public class FeedParser
 		BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 		StringBuilder sb = new StringBuilder();
 		int cp;
-		float stock;
+		
+		
+		
 		while ((cp = rd.read()) != -1)
 		{
 			sb.append((char) cp);
 		}
+		
 		String jsonText = sb.toString();
-		//Log.v("LOGCATZ", " " + jsonText.substring(5, jsonText.length() - 2));
+		
 		jsonText = jsonText.substring(5, jsonText.length() - 2);
 		is.close();
 		// Init object
@@ -50,24 +54,35 @@ public class FeedParser
 		
 		
 		
-		//Log.v("LOGCATZ", " last set.");
+		
 		
 		// Set 'Company' name
 		toPopulate.setName(jObject.getString("t"));
-		//Log.v("LOGCATZ", " name set.");
-		//Log.v("LOGCATZ", " " + toPopulate.getName());
+		
 		// Set 'Market'
 		toPopulate.setMarket(jObject.getString("e"));
-		//Log.v("LOGCATZ", " market set.");
+		
 		// Set 'Instant Volume'
 		int instantVolume = volCharToInt(jObject.getString("vo"));
-		//Log.v("LOGCATZ", " volume set.");
+		
 		toPopulate.setInstantVolume(instantVolume);
 		
+		
+		
+		setSubTotal(toPopulate);
+		
+		
+		
+	
+
+
+	}
+	
+	public void setSubTotal(Finance toPopulate)
+	{
 		if(toPopulate.getName().toString().equals("BP"))
 		{
 			toPopulate.setTotal(stock * 192);
-			//Log.v("LOGCATZ", " " + toPopulate.getTotal());
 		}
 		if(toPopulate.getName().toString().equals("EXPN"))
 		{
@@ -85,12 +100,6 @@ public class FeedParser
 		{
 			toPopulate.setTotal(stock * 1219);
 		}
-		
-		
-		
-	
-
-
 	}
 	
 	public void getHistoric(Finance toPopulate, String stockToGet) {

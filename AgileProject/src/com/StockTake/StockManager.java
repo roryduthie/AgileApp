@@ -78,10 +78,7 @@ public class StockManager extends Application
 		portfolio.put(stockObj, shareQuantity);
 		stockNames.add(stockObj.getName());
 		stockNamesLong.put(stockCode.substring(stockCode.indexOf(":") + 1), stockNameLong);
-		stockTotals.add(stockObj.getTotal());
-		
-		
-		
+		stockTotals.add(stockObj.getTotal());		
 		
 		return true;
 	}
@@ -106,12 +103,8 @@ public class StockManager extends Application
 	public void sumTable(Activity contextActivity)
 	{
 		
-		//table.removeAllViews();
-		table = (TableLayout) contextActivity.findViewById(R.id.tableLayout1); // Find
-																							// TableLayout
-																						// defined
-																							// in
-																							// main.xml
+	
+		table = (TableLayout) contextActivity.findViewById(R.id.tableLayout1); 
 
 		table.setStretchAllColumns(true);
 		table.setShrinkAllColumns(true);
@@ -184,9 +177,6 @@ public class StockManager extends Application
 			stockTotal[stockCounter].setTextSize(20f);
 			stockTotal[stockCounter].setSingleLine(true);
 			
-			//Log.v("LOGCATZ",  "Last Volume: " + longName);
-			//Log.v("LOGCATZ",  "Last Volume: " + subTotal);
-
 			rowStock[stockCounter].addView(stockName[stockCounter]);
 			rowStock[stockCounter].addView(stockShares[stockCounter]);
 			rowStock[stockCounter].addView(stockValue[stockCounter]);
@@ -197,6 +187,7 @@ public class StockManager extends Application
 			stockCounter++;
 
 		}
+		
 		List<String> portTotal = new ArrayList<String>();
 		String totalVal = "Total Portfolio Value:     £" + String.format("%,.0f", getPortfolioTotal());
 		portfolioTotal.setText(totalVal);
@@ -215,22 +206,12 @@ public class StockManager extends Application
 
 	}
 	
+	
 	public void summaryTable(Activity contextActivity)
-	{
-		
-		
-		//TableLayout table;
-		
-		//table.removeViewAt(tableRow1);
-		
-		
+	{	
 		
 		table = (TableLayout) contextActivity.findViewById(R.id.tableLayout1);
-																							// Find
-																							// TableLayout
-																							// defined
-																							// in
-																						// main.xml
+																							
 
 		table.setStretchAllColumns(true);
 		table.setShrinkAllColumns(true);
@@ -303,8 +284,6 @@ public class StockManager extends Application
 			stockTotal[stockCounter].setTextSize(20f);
 			stockTotal[stockCounter].setSingleLine(true);
 			
-			//Log.v("LOGCATZ",  "Last Volume: " + longName);
-			//Log.v("LOGCATZ",  "Last Volume: " + subTotal);
 
 			rowStock[stockCounter].addView(stockName[stockCounter]);
 			rowStock[stockCounter].addView(stockShares[stockCounter]);
@@ -316,6 +295,7 @@ public class StockManager extends Application
 			stockCounter++;
 
 		}
+		
 		List<String> portTotal = new ArrayList<String>();
 		String totalVal = "Total Portfolio Value:     £" + String.format("%,.0f", getPortfolioTotal());
 		portfolioTotal.setText(totalVal);
@@ -334,14 +314,11 @@ public class StockManager extends Application
 
 	}
 	
+	
 	public int volumeTable(Activity contextActivity)
 	{
 
-		TableLayout table = (TableLayout) contextActivity.findViewById(R.id.tableLayout2); // Find
-																							// TableLayout
-																							// defined
-																							// in
-																							// main.xml
+		TableLayout table = (TableLayout) contextActivity.findViewById(R.id.tableLayout2); 
 
 		table.setStretchAllColumns(true);
 		table.setShrinkAllColumns(true);
@@ -398,14 +375,12 @@ public class StockManager extends Application
 
 	}
 
+	
+	
 	public int rocketTable(Activity contextActivity)
 	{
 
-		TableLayout table = (TableLayout) contextActivity.findViewById(R.id.tableLayout3); // Find
-																							// TableLayout
-																							// defined
-																							// in
-																							// main.xml
+		TableLayout table = (TableLayout) contextActivity.findViewById(R.id.tableLayout3); 
 
 		table.setStretchAllColumns(true);
 		table.setShrinkAllColumns(true);

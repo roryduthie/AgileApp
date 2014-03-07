@@ -99,10 +99,7 @@ public class SummaryActivity extends Activity
 		
 	}
 	
-	public void changeView() throws IOException, JSONException {
-		refresh();
-		myStockmanager.summaryTable(this);
-	}
+	
 	
 	private boolean checkInternetConnection() {
 	
